@@ -3,7 +3,7 @@
 import styled from "styled-components";
 
 import Banner from "./components/Banner";
-import Products from "./components/Products";
+import ProductsList from "./components/ProductsList";
 import BannerImage from '../../public/banner01.png'
 import { Product } from "./interfaces/products";
 
@@ -30,7 +30,7 @@ export default async function Home() {
   return (
     <StyledMain>
       <Banner image={BannerImage} width={1140} height={325} />
-      <Products products={products}/>
+      <ProductsList products={products}/>
     </StyledMain>
   )
 }
