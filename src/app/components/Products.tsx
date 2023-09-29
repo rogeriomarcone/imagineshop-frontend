@@ -4,22 +4,33 @@ import { Conteainer } from "../styles/util";
 import Link from "next/link";
 import Image from "next/image";
 
-//temporario
-import Logo from '../../../public/logo.png';
+import { Product } from "../interfaces/products";
 
-const Products = () => {
+interface ProductsProps {
+    products: Product[];
+}
+
+const Products = ({ products }: ProductsProps) => {
     return (
         <StyledProducts>
             <StyledTitle><span>Des</span>taque</StyledTitle>
             <StyledProductList>
-                <StyledProductItem>
-                    <Link href='/'>
-                        <Image src={Logo} width={230} height={230} alt="produto" />
-                        <StyledProductName>Smartphone Samsung Galaxy J8 64GB Dual Chip Android 8.0</StyledProductName>
-                        <StyledProductPrice>R$ 1200,00</StyledProductPrice>
-                        <StyledProductSpritPrice>10x de R$ 129,90 sem juros</StyledProductSpritPrice>
-                    </Link>
-                </StyledProductItem>
+
+                {
+                    products && products.map((product) => {
+                        return (
+                            <StyledProductItem key={product._id}>
+                                <Link href='/'>
+                                    <Image src={product.image} width={230} height={230} alt="produto" />
+                                    <StyledProductName>{product.name}</StyledProductName>
+                                    <StyledProductPrice>{product.formattedPrice}</StyledProductPrice>
+                                    <StyledProductSpritPrice>10x de {product.splitPrice} sem juros</StyledProductSpritPrice>
+                                </Link>
+                            </StyledProductItem>
+                        )
+                    })
+                }
+
             </StyledProductList>
         </StyledProducts>
     );
@@ -47,7 +58,7 @@ const StyledProductList = styled.div`
 `;
 
 const StyledProductItem = styled.div`
-    height: 23.125rem;
+    height: 24rem;
     border: 1px solid #eaeaea;
     border-radius: 4px;
     box-shadow: 5px 0px 10px #d9d9d9;
@@ -75,6 +86,7 @@ const StyledProductSpritPrice = styled.small`
     font-size: 0.75rem;
     font-weight: 700;
     color: #999;
+    margin-bottom: 2rem;
 `;
 
 export default Products;
