@@ -1,7 +1,7 @@
 'use client';
 import Image, { StaticImageData } from "next/image";
 import styled from "styled-components";
-import { Conteainer } from "../styles/util";
+import { Container } from "../styles/util";
 
 interface BannerProps {
     image: StaticImageData;
@@ -18,7 +18,7 @@ const Banner = ({ image, width, height }: BannerProps) => {
 };
 
 const StyladBanner = styled.section`
-    ${Conteainer};
+    ${Container};
     border-top: 3px solid ${({ theme }) => theme.colors.primary};
     border-bottom: 3px solid ${({ theme }) => theme.colors.primary};;
 `;

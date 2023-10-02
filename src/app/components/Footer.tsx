@@ -2,7 +2,7 @@ import Image from "next/image";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Logo from "../../../public/logo.png"
-import { Conteainer } from "../styles/util";
+import { Container } from "../styles/util";
 import { faFacebookSquare, faInstagram, faYoutube } from "@fortawesome/free-brands-svg-icons";
 
 
@@ -34,13 +34,13 @@ const Footer = () => {
 };
 
 const StyledFooter = styled.footer`
-    width: 100vw;
+   /* width: 100vw; */
     height: 12.5rem;
     background-color: #f4f4f4;
 `;
 
 const StyledFooterContainer = styled.div`
-    ${Conteainer};
+    ${Container};
     display: grid;
     grid-template-columns: 130px auto 130px;
     padding: 2.5rem 0;

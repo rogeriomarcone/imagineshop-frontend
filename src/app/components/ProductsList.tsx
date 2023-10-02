@@ -1,16 +1,16 @@
 'use client';
 import styled from "styled-components";
-import { Conteainer } from "../styles/util";
+import { Container } from "../styles/util";
 import Link from "next/link";
 import Image from "next/image";
 
-import { Product } from "../interfaces/products";
+import { Product } from "../interfaces/product";
 
 interface ProductsProps {
     products: Product[];
 }
 
-const Products = ({ products }: ProductsProps) => {
+const ProductsList = ({ products }: ProductsProps) => {
     return (
         <StyledProducts>
             <StyledTitle><span>Des</span>taque</StyledTitle>
@@ -20,7 +20,7 @@ const Products = ({ products }: ProductsProps) => {
                     products && products.map((product) => {
                         return (
                             <StyledProductItem key={product._id}>
-                                <Link href='/'>
+                                <Link href={`products/${product._id}`}>
                                     <Image src={product.image} width={230} height={230} alt="produto" />
                                     <StyledProductName>{product.name}</StyledProductName>
                                     <StyledProductPrice>{product.formattedPrice}</StyledProductPrice>
@@ -37,7 +37,7 @@ const Products = ({ products }: ProductsProps) => {
 };
 
 const StyledProducts = styled.section`
-    ${Conteainer}
+    ${Container}
 `;
 
 const StyledTitle = styled.h2`
@@ -89,4 +89,4 @@ const StyledProductSpritPrice = styled.small`
     margin-bottom: 2rem;
 `;
 
-export default Products;
+export default ProductsList;
