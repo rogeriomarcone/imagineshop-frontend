@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Banner from "./components/Banner";
 import ProductsList from "./components/ProductsList";
 import BannerImage from '../../public/banner01.png'
-import { Product } from "./interfaces/products";
+import { Product } from "./interfaces/product";
 
 async function getProducts(): Promise<any> {
   const res = await fetch('http://localhost:3333/products', { cache: 'no-store' });
@@ -17,7 +17,7 @@ async function getProducts(): Promise<any> {
   productsData.forEach(product => {
     product.image = `http://localhost:3333/uploads/${product.fileName}`;
     product.formattedPrice = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.price);
-    product.splitPrice = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format((product.price/10));
+    product.splitPrice = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format((product.price / 10));
   })
 
   console.log(productsData);
@@ -30,7 +30,7 @@ export default async function Home() {
   return (
     <StyledMain>
       <Banner image={BannerImage} width={1140} height={325} />
-      <ProductsList products={products}/>
+      <ProductsList products={products} />
     </StyledMain>
   )
 }

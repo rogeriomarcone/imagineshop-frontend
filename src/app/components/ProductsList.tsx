@@ -1,10 +1,10 @@
 'use client';
 import styled from "styled-components";
-import { Conteainer } from "../styles/util";
+import { Container } from "../styles/util";
 import Link from "next/link";
 import Image from "next/image";
 
-import { Product } from "../interfaces/products";
+import { Product } from "../interfaces/product";
 
 interface ProductsProps {
     products: Product[];
@@ -20,7 +20,7 @@ const ProductsList = ({ products }: ProductsProps) => {
                     products && products.map((product) => {
                         return (
                             <StyledProductItem key={product._id}>
-                                <Link href={`/products/${product._id}`}>
+                                <Link href={`products/${product._id}`}>
                                     <Image src={product.image} width={230} height={230} alt="produto" />
                                     <StyledProductName>{product.name}</StyledProductName>
                                     <StyledProductPrice>{product.formattedPrice}</StyledProductPrice>
@@ -37,7 +37,7 @@ const ProductsList = ({ products }: ProductsProps) => {
 };
 
 const StyledProducts = styled.section`
-    ${Conteainer}
+    ${Container}
 `;
 
 const StyledTitle = styled.h2`

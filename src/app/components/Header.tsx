@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Logo from "../../../public/logo.png";
 import ShoppinCartImage from "../../../public/carrinho.png"
-import { Conteainer } from "../styles/util";
+import { Container } from "../styles/util";
 
 
 const Header = () => {
@@ -41,12 +41,12 @@ const Header = () => {
 }
 
 const StyledHeader = styled.header`
-  width: 100vw;
+ /* width: 100vw; */
   margin: 1.87rem 0 3.125rem 0;
 `;
 
 const StyledNavbar = styled.nav`
-  ${Conteainer};
+  ${Container};
   display: flex;
   align-items: center;
   justify-content: space-between;
