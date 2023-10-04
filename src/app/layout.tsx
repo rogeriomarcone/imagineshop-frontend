@@ -8,6 +8,7 @@ import StyledComponentsRegistry from './lib/registry';
 import { ThemeProvider } from 'styled-components';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ShoppingCartProvider from './contexts/ShoppingCart';
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 /*
@@ -34,9 +35,11 @@ export default function RootLayout({
       <ThemeProvider theme={theme}>
         <body className={montserrat.className}>
           <StyledComponentsRegistry>
-            <Header />
-            {children}
-            <Footer />
+            <ShoppingCartProvider>
+              <Header />
+              {children}
+              <Footer />
+            </ShoppingCartProvider>
           </StyledComponentsRegistry>
         </body>
       </ThemeProvider>
