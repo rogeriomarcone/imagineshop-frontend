@@ -1,13 +1,14 @@
 'use client';
-
-import { Product } from "@/app/interfaces/product";
+import { useContext } from 'react'
 import Image from "next/image";
 import { styled } from "styled-components";
 import useSWR from 'swr';
 
 import BannerImage from '../../../../public/banner02.png';
+import { Product } from "@/app/interfaces/product";
 import Banner from "@/app/components/Banner";
 import { Container } from "@/app/styles/util";
+import { ShoppingCartContext } from "@/app/contexts/ShoppingCart";
 
 
 /// carrega pagina pelo servidor
@@ -36,7 +37,7 @@ interface GetProduct {
     isError: boolean;
 }
 
-const fetcher = (url: string) => fetch(url, { mode: "cors" }).then(r => r.json());
+const fetcher = (url: string) => fetch(url).then(r => r.json());
 
 const getProduct = (id: string): GetProduct => {
     const { data, error, isLoading } = useSWR(`http://localhost:3333/products/${id}`, fetcher);
@@ -55,6 +56,8 @@ const getProduct = (id: string): GetProduct => {
 
 const ProductItem = ({ params }: { params: { productId: string } }) => {
     const { product, isLoading, isError } = getProduct(params.productId);
+    const { addProduct } = useContext(ShoppingCartContext);
+
     if (isError) return <StyledMinHeight>falhou ao carregar</StyledMinHeight>
     if (isLoading) return <StyledMinHeight>carregando...</StyledMinHeight>
     return (
@@ -79,7 +82,7 @@ const ProductItem = ({ params }: { params: { productId: string } }) => {
               10x de {product.splitPrice} sem juros
             </ProductSplitPrice>
 
-            <Button onClick={() => { }}>
+            <Button onClick={() => addProduct(product)}>
               Adicionar ao carrinho
             </Button>
 

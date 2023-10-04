@@ -1,6 +1,5 @@
-'use client';
-
-import styled from "styled-components";
+//'use client';
+//import styled from "styled-components";
 
 import Banner from "./components/Banner";
 import ProductsList from "./components/ProductsList";
@@ -28,13 +27,9 @@ export default async function Home() {
   const products: Product[] = await getProducts();
 
   return (
-    <StyledMain>
+    <main>
       <Banner image={BannerImage} width={1140} height={325} />
       <ProductsList products={products} />
-    </StyledMain>
+    </main>
   )
 }
-
-const StyledMain = styled.main`
-  min-height: 60.5vh;
-`;
