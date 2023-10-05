@@ -4,6 +4,11 @@ import { Product } from '../interfaces/product';
 interface ShoppingCart {
     addProduct: (product: Product) => void;
     getProducts: () => Product[];
+    deleteProduct: (id: string) => void;
+    getTotalProducts: () => string;
+    getShippingValue: () => string;
+    getTotalValue: () => string;
+
 }
 
 export const ShoppingCartContext = createContext({} as ShoppingCart);
@@ -11,9 +16,12 @@ export const ShoppingCartContext = createContext({} as ShoppingCart);
 const ShoppingCartProvider = ({ children }: any) => {
     const isBrowser = typeof window !== 'undefined';
     const SESSION_STORAGE = 'products';
+    const SHIPPING_VALUE = 50;
 
     const addProduct = (product: Product) => {
         const products = getProducts();
+        const findProduct = products.find(p => p._id === product._id);
+        if (findProduct) return;
         products.push(product);
         if (isBrowser) {
             sessionStorage.setItem(SESSION_STORAGE, JSON.stringify(products));
@@ -28,8 +36,39 @@ const ShoppingCartProvider = ({ children }: any) => {
         return [];
     }
 
+    const deleteProduct = (id: string) => {
+        const products = getProducts();
+        const newProductsList = products.filter(p => p._id !== id);
+        if (isBrowser) {
+            sessionStorage.setItem(SESSION_STORAGE, JSON.stringify(newProductsList));
+        }
+    }
+
+    const getTotalProducts = (): string => {
+        const products = getProducts();
+        const total = products.reduce((acc, cur) => acc + cur.price, 0);
+        return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(total);
+    }
+
+    const getShippingValue = (): string => {
+        return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(SHIPPING_VALUE);
+    }
+
+    const getTotalValue = (): string => {
+        const products = getProducts();
+        const total = products.reduce((acc, cur) => acc + cur.price, 0);
+        return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(total + SHIPPING_VALUE);
+    }
+
     return (
-        <ShoppingCartContext.Provider value={{ addProduct, getProducts }}>
+        <ShoppingCartContext.Provider value={{
+            addProduct,
+            getProducts,
+            deleteProduct,
+            getTotalProducts,
+            getShippingValue,
+            getTotalValue
+        }}>
             {children}
         </ShoppingCartContext.Provider>
     )
