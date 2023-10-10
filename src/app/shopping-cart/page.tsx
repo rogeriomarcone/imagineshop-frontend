@@ -2,22 +2,28 @@
 import { useContext, useEffect, useState } from 'react';
 import { ShoppingCartContext } from "../contexts/ShoppingCart";
 import { styled } from "styled-components";
+import { toast } from 'react-toastify';
+
 import { Container } from "../styles/util";
 import { Product } from "../interfaces/product";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from '@fortawesome/free-solid-svg-icons';
+import useSWR from 'swr';
 
 const ShoppingCart = () => {
-    const { 
+    const {
         getProducts,
         getTotalProducts,
         getShippingValue,
         getTotalValue,
-        deleteProduct 
+        deleteProduct,
+        clearAll
     } = useContext(ShoppingCartContext);
     const [products, setProducts] = useState<Product[]>([]);
     const [refreshPage, setRefreshPage] = useState<number>(0);
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
 
     useEffect(() => {
         const productList = getProducts();
@@ -25,8 +31,30 @@ const ShoppingCart = () => {
     }, [refreshPage]);
 
     const deleteProductInPage = (id: string) => {
-        deleteProduct(id); 
+        toast.success('Produto removido do carrinho.');
+        deleteProduct(id);
         setRefreshPage(refreshPage + 1);
+    }
+
+    const getToken = async (): Promise<any> => {
+
+        return fetch(`${process.env.NEXT_PUBLIC_API}/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email,
+                password
+            }),
+        }).then(r => r.json());
+
+    }
+
+    const handleSubmit = async (event: any) => {
+        event.preventDefault();
+        const access_token = await getToken();
+        console.log(access_token);
     }
 
     return (products && products.length > 0 ?
@@ -42,7 +70,7 @@ const ShoppingCart = () => {
                                 <div key={index}>
                                     <ButtonContainer>
                                         <button onClick={() => deleteProductInPage(product._id)}>
-                                         <DeleteIcon icon={faX}></DeleteIcon>
+                                            <DeleteIcon icon={faX}></DeleteIcon>
                                         </button>
                                     </ButtonContainer>
                                     <Product>
@@ -68,13 +96,13 @@ const ShoppingCart = () => {
                             <LoginTitle>2. Login</LoginTitle>
                             <InputGroup>
                                 <span>E-MAIL:</span>
-                                <input type="text" />
+                                <input type="text" value={email || ''} onChange={(e) => setEmail(e.currentTarget.value)} />
                             </InputGroup>
                             <InputGroup>
                                 <span>SENHA:</span>
-                                <input type="password" />
+                                <input type="password" value={password || ''} onChange={(e) => setPassword(e.currentTarget.value)} />
                             </InputGroup>
-                            <Button>
+                            <Button type='submit' onClick={handleSubmit}>
                                 Continuar
                             </Button>
                         </ShoppingCartPayment>

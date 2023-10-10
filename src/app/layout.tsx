@@ -6,6 +6,9 @@ import { Montserrat } from 'next/font/google';
 import StyledComponentsRegistry from './lib/registry';
 //import Header from './components/Header';
 import { ThemeProvider } from 'styled-components';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ShoppingCartProvider from './contexts/ShoppingCart';
@@ -39,6 +42,7 @@ export default function RootLayout({
               <Header />
               {children}
               <Footer />
+              <ToastContainer />
             </ShoppingCartProvider>
           </StyledComponentsRegistry>
         </body>

@@ -8,6 +8,7 @@ interface ShoppingCart {
     getTotalProducts: () => string;
     getShippingValue: () => string;
     getTotalValue: () => string;
+    clearAll: () => void;
 
 }
 
@@ -60,6 +61,11 @@ const ShoppingCartProvider = ({ children }: any) => {
         return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(total + SHIPPING_VALUE);
     }
 
+    const clearAll = (): void => {
+        if(isBrowser) {
+            sessionStorage.clear();
+        }
+    }
     return (
         <ShoppingCartContext.Provider value={{
             addProduct,
@@ -67,7 +73,8 @@ const ShoppingCartProvider = ({ children }: any) => {
             deleteProduct,
             getTotalProducts,
             getShippingValue,
-            getTotalValue
+            getTotalValue,
+            clearAll
         }}>
             {children}
         </ShoppingCartContext.Provider>
